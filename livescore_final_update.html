@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Golf 4 Trường 2026 - Live Score</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:'Be Vietnam Pro',sans-serif;background:#0b1121;color:#e2e8f0;min-height:100vh;font-size:14px}
+button,input,select{font-family:inherit}
+.hdr{background:linear-gradient(135deg,#1a365d,#1e4d2b);padding:12px;text-align:center;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px #0005}
+.hdr h1{font-size:14px;font-weight:800;color:#fff;letter-spacing:.5px}
+.hdr small{font-size:10px;color:#94a3b8}
+.status{display:flex;justify-content:center;align-items:center;gap:6px;margin-top:4px}
+.dot{width:7px;height:7px;border-radius:50%;background:#ef4444}.dot.on{background:#22c55e;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.status span{font-size:10px;color:#94a3b8}
+.mode-bar{display:flex;gap:6px;padding:8px 10px;background:#0f1729;position:sticky;top:56px;z-index:99}
+.mode-btn{flex:1;padding:9px;border-radius:8px;border:1.5px solid #1e3050;background:#0f1729;color:#64748b;font-size:11px;font-weight:700;cursor:pointer;text-align:center;transition:.15s}
+.mode-btn.on{border-color:#3b82f6;color:#60a5fa;background:#172554}
+.tabs{display:flex;background:#0f1729;border-bottom:2px solid #1e3050}
+.tab{flex:1;padding:10px 4px;text-align:center;font-size:11px;font-weight:700;color:#475569;cursor:pointer;border:none;background:none;transition:.15s}
+.tab.on{color:#60a5fa;border-bottom:2px solid #60a5fa;margin-bottom:-2px}
+.stand{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:8px}
+.tc{background:#111b2e;border-radius:10px;padding:10px 4px;text-align:center;border:2px solid #1e3050;transition:.2s}
+.tc.g{border-color:#eab308;background:linear-gradient(180deg,#1c1a00,#111b2e)}
+.tc .rk{font-size:9px;font-weight:800;color:#64748b}.tc.g .rk{color:#eab308}
+.tc .logo{width:34px;height:34px;border-radius:8px;margin:4px auto;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:#fff}
+.tc .tn{font-size:8px;color:#94a3b8;font-weight:600}
+.tc .ts{font-size:20px;font-weight:900;color:#fff}.tc.g .ts{color:#eab308}
+.tc .td{font-size:8px;color:#475569}
+.t-BK{background:#c2410c}.t-GT{background:#15803d}.t-KT{background:#6d28d9}.t-XD{background:#0369a1}
+.sec{padding:4px 8px;max-width:700px;margin:0 auto;padding-bottom:80px}
+.crd{background:#111b2e;border-radius:10px;margin:6px 0;border:1px solid #1e3050;overflow:hidden}
+.crd-h{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;cursor:pointer;background:linear-gradient(90deg,#162040,#111b2e)}
+.crd-h .fl{font-size:13px;font-weight:800;color:#60a5fa}
+.crd-h .st{font-size:10px;color:#64748b}
+.crd-b{padding:4px 6px 6px}
+.gr{display:flex;align-items:center;gap:5px;padding:6px 4px;border-bottom:1px solid #1e3050}
+.gr:last-child{border:none}
+.bdg{width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:900;color:#fff;flex-shrink:0}
+.gr .nm{flex:1;font-size:11px;font-weight:500;line-height:1.2}
+.gr .nm small{font-size:8px;color:#475569;display:block}
+.gr .hp{font-size:14px;font-weight:800;color:#60a5fa;min-width:32px;text-align:right}
+.gr .mp{font-size:10px;font-weight:700;min-width:28px;text-align:center;padding:2px 4px;border-radius:4px}
+.pw{background:#14532d;color:#22c55e}.pd{background:#713f12;color:#eab308}.pz{background:#1e293b;color:#334155}
+.si{margin:4px 0;padding:6px;background:#0b1121;border-radius:8px}
+.si-h{display:flex;align-items:center;gap:5px;margin-bottom:3px;flex-wrap:wrap}
+.si-h .info{font-size:9px;color:#475569}
+.name-in{background:none;border:none;border-bottom:1px dashed #334155;color:#e2e8f0;font-size:11px;font-weight:600;padding:2px 0;flex:1;min-width:80px;font-family:inherit}
+.name-in:focus{outline:none;border-color:#3b82f6}
+.name-in.changed{border-color:#f59e0b;color:#f59e0b}
+.hg{display:grid;grid-template-columns:repeat(9,1fr);gap:0}
+.hc{display:flex;flex-direction:column;align-items:center;padding:1px 0}
+.hc .hn{font-size:7px;color:#475569;font-weight:700}
+.hc .pr{font-size:7px;color:#334155}
+.hi{width:27px;height:28px;border-radius:5px;border:1.5px solid #1e3050;background:#0b1121;color:#e2e8f0;font-size:13px;font-weight:700;text-align:center;font-family:inherit;-webkit-appearance:none;-moz-appearance:textfield}
+.hi:focus{border-color:#3b82f6;outline:none;background:#162040}
+.hi.f{border-color:#334155;color:#fff}
+.hsep{grid-column:1/-1;height:1px;background:#1e3050;margin:2px 0}
+.fb-c{background:#111b2e;border-radius:10px;margin:6px 0;border:1px solid #1e3050;padding:10px}
+.fb-p{font-size:9px;color:#475569;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.fb-r{display:flex;align-items:center;gap:5px;margin:4px 0;padding:6px;background:#0b1121;border-radius:6px}
+.fb-tn{flex:1;font-size:11px;font-weight:600}
+.fb-sc{font-size:16px;font-weight:900;min-width:24px;text-align:center}
+.fb-vs{font-size:9px;color:#334155;font-weight:700}
+.fb-in{width:44px;height:30px;border-radius:5px;border:1.5px solid #1e3050;background:#0b1121;color:#e2e8f0;font-size:14px;font-weight:700;text-align:center;font-family:inherit}
+.fb-in:focus{border-color:#3b82f6;outline:none;background:#162040}
+/* Fourball hole result buttons (Thắng A / Hoà / Thắng B) */
+.fb-hole{display:flex;align-items:center;gap:4px;padding:6px 4px;border-bottom:1px solid #1e3050}
+.fb-hole:last-child{border:none}
+.fb-hole .hl{font-size:10px;font-weight:800;color:#64748b;min-width:34px;text-align:center}
+.fb-hole .hl b{color:#94a3b8;font-size:11px}
+.fb-hole .hl small{display:block;color:#475569;font-size:8px;font-weight:600}
+.fb-btns{display:flex;gap:4px;flex:1}
+.fbb{flex:1;padding:8px 2px;border-radius:6px;border:2px solid #1e3050;background:#0b1121;color:#475569;font-size:10px;font-weight:800;cursor:pointer;font-family:inherit;transition:.1s;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.15;min-height:46px}
+.fbb:active{transform:scale(.95)}
+.fbb .tm{font-size:11px;font-weight:900;letter-spacing:.5px}
+.fbb .lbl{font-size:9px;font-weight:700;opacity:.65;margin-top:1px}
+.fbb .pt{font-size:8px;font-weight:700;opacity:.55;margin-top:1px}
+/* Hoà button (D) - yellow when active */
+.fbb.D.on{background:#422006;border-color:#eab308;color:#eab308}
+.fbb.D.on .lbl,.fbb.D.on .pt{opacity:.9}
+/* Team-coloured win buttons - activate with team's color */
+.fbb.wA.on,.fbb.wB.on{color:#fff;opacity:1}
+.fbb.wA.on .lbl,.fbb.wA.on .pt,.fbb.wB.on .lbl,.fbb.wB.on .pt{opacity:.85}
+.fbb.t-BK.on{background:#c2410c;border-color:#fb923c}
+.fbb.t-GT.on{background:#15803d;border-color:#4ade80}
+.fbb.t-KT.on{background:#6d28d9;border-color:#a78bfa}
+.fbb.t-XD.on{background:#0369a1;border-color:#38bdf8}
+.fb-cum{font-size:11px;font-weight:800;min-width:44px;text-align:right}
+.fb-status{display:inline-block;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:900}
+.fb-status.up{background:#14532d;color:#22c55e}
+.fb-status.down{background:#450a0a;color:#ef4444}
+.fb-status.tied{background:#422006;color:#eab308}
+.fb-sumrow{display:flex;align-items:center;gap:8px;margin-top:6px;padding:8px;background:#0b1121;border-radius:6px;border:1px solid #1e3050}
+.fb-sumrow .lab{font-size:9px;color:#64748b;font-weight:700;text-transform:uppercase}
+.fb-sumrow .tot{font-size:18px;font-weight:900}
+.tbl{width:100%;border-collapse:collapse;font-size:10px}
+.tbl th{background:#1e3050;color:#94a3b8;padding:5px;font-weight:700}
+.tbl td{padding:5px;text-align:center;border-bottom:1px solid #1e3050}
+.bar{position:fixed;bottom:0;left:0;right:0;background:linear-gradient(0deg,#0b1121 70%,transparent);padding:14px 10px 10px;display:flex;gap:8px}
+.btn{flex:1;padding:12px;border-radius:10px;border:none;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:.1s}
+.btn:active{transform:scale(.97)}
+.btn-p{background:#2563eb;color:#fff}
+.btn-s{background:#1e3050;color:#94a3b8}
+.toast{position:fixed;top:64px;left:50%;transform:translateX(-50%);padding:8px 18px;border-radius:8px;font-size:12px;font-weight:600;z-index:200;opacity:0;transition:.3s;pointer-events:none}
+.toast.show{opacity:1}.toast.ok{background:#16a34a;color:#fff}.toast.err{background:#dc2626;color:#fff}
+.loading{display:none;position:fixed;inset:0;background:#0b1121cc;z-index:300;align-items:center;justify-content:center}.loading.show{display:flex}
+.spin{width:36px;height:36px;border:3px solid #1e3050;border-top-color:#60a5fa;border-radius:50%;animation:sp .7s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+/* Name change approval */
+.nc-badge{display:inline-block;font-size:8px;font-weight:700;padding:1px 5px;border-radius:3px;margin-left:4px;vertical-align:middle}
+.nc-pending{background:#78350f;color:#fbbf24}
+.nc-row{display:flex;align-items:center;gap:6px;padding:6px 8px;background:#1c1307;border:1px solid #78350f;border-radius:6px;margin:4px 0}
+.nc-row .old{font-size:10px;color:#94a3b8;text-decoration:line-through}
+.nc-row .new{font-size:10px;color:#fbbf24;font-weight:600}
+.nc-row .arrow{font-size:10px;color:#475569}
+.nc-btn{padding:4px 10px;border-radius:4px;border:none;font-size:10px;font-weight:700;cursor:pointer}
+.nc-ok{background:#166534;color:#22c55e}
+.nc-no{background:#7f1d1d;color:#fca5a5}
+</style>
+</head>
+<body>
+<div class="hdr">
+<h1>⛳ GOLF 4 TRƯỜNG ĐH KỸ THUẬT 2026</h1>
+<small>Corn Hill Golf Club | 18/04/2026 | Shotgun 12:30</small>
+<div class="status"><div class="dot" id="dot"></div><span id="stxt">Đang kết nối...</span></div>
+</div>
+<div class="mode-bar">
+<button class="mode-btn on" onclick="setMode('caddy')">📝 Caddy nhập</button>
+<button class="mode-btn" onclick="setMode('live')">📊 Live Score</button>
+<button class="mode-btn" onclick="setMode('btc')">🔑 BTC</button>
+</div>
+<div class="tabs" id="tabBar"></div>
+<div id="content"></div>
+<div class="bar" id="actionBar"></div>
+<div class="toast" id="toast"></div>
+<div class="loading" id="loading"><div class="spin"></div></div>
+
+<script>
+// ★★★ THAY URL NÀY ★★★
+const API = 'https://script.google.com/macros/s/AKfycbz_BGfKU-5sErZyZfeiNMPg6om99Hnl_TzhAeXiJVV6ur0GFq-6Saui3AE9fDpxmigBHw/exec';
+
+const T=['BK','GT','KT','XD'];
+const TN={BK:'ĐH Bách khoa',GT:'ĐH Giao thông VT',KT:'ĐH Kiến trúc',XD:'ĐH Xây dựng'};
+const GR=['A+','A','B','C','D','E','F'];
+const PAR=[4,3,4,5,4,4,5,3,4, 4,4,3,5,4,3,4,5,4]; // C+D = 72
+// Stroke Play sân B+C
+const PAR_SP_B=[4,3,4,5,4,4,4,3,5]; // Sân B = 36
+const PAR_SP_C=[4,3,4,5,4,4,5,3,4]; // Sân C = 36
+const PAR_SP=PAR_SP_B.concat(PAR_SP_C); // B+C = 72
+
+// Stroke Play golfer presets (from registration data)
+const SP_GOLFERS=[
+{n:'Minh (KM Thời)',h:11.2,s:'XD'},{n:'Đỗ Việt Tân',h:12.1,s:'XD'},{n:'Đặng Ngọc Tiến',h:11.8,s:'XD'},
+{n:'Hùng (KM Thời)',h:14.5,s:'XD'},{n:'Nguyễn Viết Trường',h:13.1,s:'XD'},{n:'Thành 39',h:16.1,s:'XD'},
+{n:'Phạm Xuân Thịnh',h:16.1,s:'XD'},{n:'Nguyễn Hồng Quân',h:11.7,s:'XD'},{n:'Nhất Nhất',h:29.9,s:'XD'},
+{n:'Ms Giao',h:26.6,s:'XD'},{n:'Đinh Văn Tưởng',h:10.9,s:'XD'},{n:'Nguyễn Thành Nam',h:11.3,s:'XD'},
+{n:'Phạm Quang Huy',h:10.3,s:'XD'},{n:'Dũng bay',h:12.2,s:'XD'},{n:'TTK Trung 46',h:21,s:'XD'},
+{n:'Phạm Đức Lâm',h:24.5,s:'XD'},{n:'Phạm Hoàng Trung',h:16.5,s:'XD'},{n:'Nola Nguyen',h:17.6,s:'XD'},
+{n:'Trần Thị Ánh',h:20.4,s:'XD'},{n:'A Giang Fuji',h:12,s:'XD'},{n:'Đoàn Đạt',h:16.3,s:'XD'},
+{n:'Nguyễn Minh Tân',h:15,s:'XD'},{n:'Dương Công Định',h:26.3,s:'XD'},{n:'Hùng Alex',h:18.9,s:'XD'},
+{n:'Mr Tân',h:16.1,s:'XD'},{n:'Chưởng',h:15.4,s:'XD'},{n:'Quang (KM)',h:11.6,s:'XD'},
+];
+let curSPFilter='all', curSPFlight=null;
+
+// SM golfer preset data
+const SM={
+'A+':{BK:{n:'Nguyễn Văn Long',h:2.9},GT:{n:'Hoàng Quân',h:1.7},KT:{n:'Nguyễn Văn Tám',h:1.9},XD:{n:'Dương Văn Vinh',h:4.2}},
+'A':{BK:{n:'Đỗ Thành Trung',h:5.5},GT:{n:'Nguyễn Quang Hiệp',h:5.7},KT:{n:'Chu Minh Tiến',h:8.4},XD:{n:'Nguyễn Văn Vĩnh',h:6.9}},
+'B':{BK:{n:'Thạch',h:7.4},GT:{n:'Hoàng Anh Tuấn',h:7.3},KT:{n:'Hoàng Hữu Sơn',h:7.3},XD:{n:'Phan Việt Anh',h:7.9}},
+'C':{BK:{n:'Vũ Hoàng Anh',h:11.6},GT:{n:'Nguyễn Văn Lợi',h:11},KT:{n:'Hoàng Thế Thực',h:10.7},XD:{n:'Nguyễn Viết Sang',h:10.4}},
+'D':{BK:{n:'Nguyễn Ngọc Chiến',h:13.7},GT:{n:'Đậu Thắng',h:13.2},KT:{n:'Nguyễn Văn Nghĩa',h:12.1},XD:{n:'Ngô Ngọc Thu',h:13.5}},
+'E':{BK:{n:'Đỗ Trường Giang',h:14.2},GT:{n:'Lưu Thanh Hà',h:15.6},KT:{n:'Lê Văn Trung',h:15.2},XD:{n:'Hoàng Ngọc',h:15.3}},
+'F':{BK:{n:'Dương Trung Thủy',h:17.6},GT:{n:'Phạm Việt Cường',h:16.5},KT:{n:'Nguyễn Văn Hải',h:16.4},XD:{n:'Chu Văn Tiên',h:17.5}}
+};
+
+const FB=[
+{p:'A',hdc:'≥10',m:[{a:'BK',b:'GT',g:['Lê Xuân Quý & Vũ Ngọc Biên','Hoàng Văn Hùng & Nguyễn Tuấn Hưng']},{a:'KT',b:'XD',g:['Nguyễn Anh Vũ & Tống Trung Hiếu','Ngô Văn Dũng & Vũ Minh Huy']}]},
+{p:'B',hdc:'≥18',m:[{a:'KT',b:'BK',g:['Nguyễn Mạnh Chiến & Vũ Trọng Hùng','Lê Đức Kiên & Trịnh Văn Hùng']},{a:'XD',b:'GT',g:['Nguyễn Văn Kiên & Lê Đình Thời','Đặng Thanh Hải & Nguyễn Văn Khởi']}]},
+{p:'C',hdc:'≥22',m:[{a:'GT',b:'KT',g:['Lê Anh Dũng & Vương Duy Hoàn','Phạm Quốc Toản & Trần Quang Hoà']},{a:'BK',b:'XD',g:['Nguyễn Thu Hương & Bùi Quang Trung','Hoàng Thanh Sơn & Hoàng Văn Công']}]},
+{p:'D',hdc:'≥26',m:[{a:'KT',b:'XD',g:['Nguyễn Ngọc Trỗi & Nguyễn Trần Dũng','Nguyễn Trung Dũng & Nguyễn Phúc Dũng']},{a:'BK',b:'GT',g:['Trần Xuân Hùng & Nguyễn Văn Bình','Nguyễn Mạnh Quân & Hoàng Anh Ngọc']}]},
+{p:'E',hdc:'≥30',m:[{a:'XD',b:'GT',g:['Đỗ Quang Huy & Nguyễn Xuân Điệp','Nguyễn Đình Thành & Lê Tiến Dũng']},{a:'KT',b:'BK',g:['Nguyễn Đức Thắng & Hà Duy Khánh','Vũ Thế Hải & Trần Đăng Khoa']}]},
+{p:'F',hdc:'≥34',m:[{a:'GT',b:'KT',g:['Nguyễn Huy Hoàng & Nguyễn Viết Tân','Đỗ Hoàng Tùng & Nông Hồng Lộc']},{a:'BK',b:'XD',g:['Vũ Văn Chính & Lê Quốc Vượng','Hoàng Anh Thư & Vũ Thái Sơn']}]}
+];
+
+// ========== PIN & AUTHORIZATION ==========
+// PIN mặc định: BTC có thể override qua Google Sheet "PIN Config"
+// Pattern: 1xxx = SM flight, 2xxx = FB pair, 9999 = BTC master
+const DEFAULT_PINS={
+  // scope: 'sm:FLIGHT' | 'fb:PAIR' | 'btc'
+  '1001':{scope:'sm:A+',label:'SM Bảng A+'},
+  '1002':{scope:'sm:A', label:'SM Bảng A'},
+  '1003':{scope:'sm:B', label:'SM Bảng B'},
+  '1004':{scope:'sm:C', label:'SM Bảng C'},
+  '1005':{scope:'sm:D', label:'SM Bảng D'},
+  '1006':{scope:'sm:E', label:'SM Bảng E'},
+  '1007':{scope:'sm:F', label:'SM Bảng F'},
+  '2001':{scope:'fb:A', label:'FB Cặp A'},
+  '2002':{scope:'fb:B', label:'FB Cặp B'},
+  '2003':{scope:'fb:C', label:'FB Cặp C'},
+  '2004':{scope:'fb:D', label:'FB Cặp D'},
+  '2005':{scope:'fb:E', label:'FB Cặp E'},
+  '2006':{scope:'fb:F', label:'FB Cặp F'},
+  '3001':{scope:'sp',   label:'Stroke Play'},
+  '9999':{scope:'btc',  label:'Ban Tổ Chức'}
+};
+// Runtime PIN map (merges DEFAULT_PINS with server overrides)
+let PINS={...DEFAULT_PINS};
+// Current authenticated session
+let auth=null; // {pin, scope, label} when logged in
+
+// ========== STATE ==========
+let mode='caddy',tab='sm',curFlight=null,curPair=null;
+let D={sm:{},fb:{},fbR:{},nameChanges:{},changeReqs:{}}; // changeReqs: {pin: {fromScope, toScope, reason, status, ts}}
+let online=false,syncing=false;
+
+function init(){
+  loadLocal();
+  GR.forEach(f=>{if(!D.sm[f]){D.sm[f]={};T.forEach(t=>{D.sm[f][t]={n:SM[f][t].n,s:Array(18).fill(null)}})}});
+  if(!D.nameChanges)D.nameChanges={};
+  if(!D.changeReqs)D.changeReqs={};
+  render();fetchServer();
+  setInterval(()=>{if(mode==='live'||mode==='btc')fetchServer()},15000);
+}
+function loadLocal(){try{D=JSON.parse(localStorage.getItem('g4t3')||'{}');if(!D.sm)D.sm={};if(!D.fb)D.fb={};if(!D.fbR)D.fbR={};if(!D.nameChanges)D.nameChanges={};if(!D.sp)D.sp={};if(!D.fbM)D.fbM={};if(!D.fbH)D.fbH={};if(!D.changeReqs)D.changeReqs={};// restore auth session
+  const savedAuth=localStorage.getItem('g4t3_auth');if(savedAuth){try{auth=JSON.parse(savedAuth)}catch(e){auth=null}}
+  // restore PIN overrides
+  const savedPins=localStorage.getItem('g4t3_pins');if(savedPins){try{PINS={...DEFAULT_PINS,...JSON.parse(savedPins)}}catch(e){}}
+}catch(e){D={sm:{},fb:{},fbR:{},nameChanges:{},sp:{},fbM:{},fbH:{},changeReqs:{}}}}
+function saveLocal(){localStorage.setItem('g4t3',JSON.stringify(D));if(auth)localStorage.setItem('g4t3_auth',JSON.stringify(auth))}
+
+// ========== AUTH ==========
+function tryLogin(pin){
+  pin=(pin||'').trim();
+  if(!/^\d{4}$/.test(pin)){toast('PIN phải là 4 chữ số',false);return false}
+  const p=PINS[pin];
+  if(!p){toast('PIN không hợp lệ',false);return false}
+  auth={pin,scope:p.scope,label:p.label};
+  localStorage.setItem('g4t3_auth',JSON.stringify(auth));
+  // Auto-select scope
+  if(p.scope.startsWith('sm:')){mode='caddy';tab='sm';curFlight=p.scope.slice(3)}
+  else if(p.scope.startsWith('fb:')){mode='caddy';tab='fb';curPair=FB.findIndex(x=>x.p===p.scope.slice(3))}
+  else if(p.scope==='sp'){mode='caddy';tab='sp'}
+  else if(p.scope==='btc'){mode='btc';tab='approve'}
+  toast('✅ Đăng nhập: '+p.label,true);
+  render();
+  return true;
+}
+function logout(){
+  auth=null;
+  localStorage.removeItem('g4t3_auth');
+  curFlight=null;curPair=null;mode='caddy';tab='sm';
+  toast('Đã đăng xuất',true);render();
+}
+// Permission check: can current auth edit this scope?
+function canEdit(scopeStr){
+  if(!auth)return false;
+  if(auth.scope==='btc')return true;
+  return auth.scope===scopeStr;
+}
+// Request change of scope (goes to BTC)
+function requestChange(toScope,reason){
+  if(!auth||auth.scope==='btc')return;
+  D.changeReqs[auth.pin]={
+    fromScope:auth.scope,
+    fromLabel:auth.label,
+    toScope,
+    toLabel:(PINS[Object.keys(PINS).find(k=>PINS[k].scope===toScope)]||{label:toScope}).label||toScope,
+    reason:reason||'',
+    status:'pending',
+    ts:new Date().toISOString()
+  };
+  saveLocal();
+  // Try to sync to server so BTC thấy ngay
+  post({action:'changeReq',pin:auth.pin,fromScope:auth.scope,toScope,reason:reason||''}).catch(()=>{});
+  toast('✅ Đã gửi yêu cầu cho BTC',true);render();
+}
+// BTC approves a change request → update PIN mapping on this device
+function approveChange(pin){
+  const req=D.changeReqs[pin];if(!req)return;
+  req.status='approved';req.approvedTs=new Date().toISOString();
+  // Override PIN scope locally (BTC machine); also sync
+  PINS[pin]={scope:req.toScope,label:(PINS[pin]?PINS[pin].label.split(' → ')[0]:pin)+' → '+req.toLabel};
+  // Persist PIN override
+  const pinOverrides={};Object.keys(PINS).forEach(k=>{if(JSON.stringify(PINS[k])!==JSON.stringify(DEFAULT_PINS[k]))pinOverrides[k]=PINS[k]});
+  localStorage.setItem('g4t3_pins',JSON.stringify(pinOverrides));
+  post({action:'approveChange',pin,toScope:req.toScope}).catch(()=>{});
+  saveLocal();toast('✅ Đã duyệt',true);render();
+}
+function rejectChange(pin){
+  const req=D.changeReqs[pin];if(!req)return;
+  req.status='rejected';req.rejectedTs=new Date().toISOString();
+  post({action:'rejectChange',pin}).catch(()=>{});
+  saveLocal();toast('Đã từ chối',true);render();
+}
+
+// ========== MODE ==========
+function setMode(m){
+  // Permission check: caddy & btc require auth
+  if((m==='caddy'||m==='btc')&&!auth){
+    // Store intent and show login screen
+    pendingMode=m;
+    renderLogin();
+    return;
+  }
+  if(m==='btc'&&auth.scope!=='btc'){toast('Cần PIN BTC (9999)',false);return}
+  mode=m;
+  document.querySelectorAll('.mode-btn').forEach((b,i)=>b.classList.toggle('on',['caddy','live','btc'][i]===m));
+  if(m==='live')tab='bxh';else if(m==='btc')tab='approve';else{
+    // Caddy: auto-select tab by scope
+    if(auth.scope.startsWith('sm:'))tab='sm';
+    else if(auth.scope.startsWith('fb:'))tab='fb';
+    else if(auth.scope==='sp')tab='sp';
+    else tab='sm';
+  }
+  if(m!=='caddy')fetchServer();
+  render();
+}
+function setTab(t){
+  // Caddy can only switch to tabs they're authorized for
+  if(mode==='caddy'&&auth){
+    const scope=auth.scope;
+    if(scope==='btc'){/* allowed all */}
+    else if(scope.startsWith('sm:')&&t!=='sm'){toast('Bạn chỉ được nhập SM',false);return}
+    else if(scope.startsWith('fb:')&&t!=='fb'){toast('Bạn chỉ được nhập Fourball',false);return}
+    else if(scope==='sp'&&t!=='sp'){toast('Bạn chỉ được nhập Stroke Play',false);return}
+  }
+  tab=t;render();
+}
+
+let pendingMode=null;
+
+function renderLogin(){
+  document.getElementById('tabBar').innerHTML='';
+  document.getElementById('actionBar').innerHTML='';
+  const msg=pendingMode==='btc'?'Nhập PIN Ban Tổ Chức':'Nhập PIN Caddy được BTC cấp';
+  document.getElementById('content').innerHTML=`
+    <div style="max-width:360px;margin:32px auto;padding:20px">
+      <div style="text-align:center;margin-bottom:20px">
+        <div style="font-size:48px;margin-bottom:8px">🔒</div>
+        <div style="font-size:15px;font-weight:800;color:#e2e8f0">${msg}</div>
+        <div style="font-size:11px;color:#64748b;margin-top:4px">Liên hệ BTC nếu chưa có PIN</div>
+      </div>
+      <div style="background:#111b2e;border:1px solid #1e3050;border-radius:12px;padding:20px">
+        <input id="pinInput" type="tel" inputmode="numeric" maxlength="4" autocomplete="off"
+          placeholder="• • • •"
+          style="width:100%;padding:16px;border-radius:10px;border:2px solid #1e3050;background:#0b1121;color:#e2e8f0;font-size:28px;font-weight:900;text-align:center;letter-spacing:16px;font-family:inherit;box-sizing:border-box"
+          onkeydown="if(event.key==='Enter')doLogin()">
+        <button onclick="doLogin()" style="width:100%;margin-top:12px;padding:14px;border-radius:10px;border:none;background:#2563eb;color:#fff;font-size:14px;font-weight:800;cursor:pointer;font-family:inherit">Đăng nhập</button>
+      </div>
+      <div style="text-align:center;margin-top:16px">
+        <button onclick="pendingMode=null;mode='live';tab='bxh';render()" style="background:none;border:none;color:#64748b;font-size:11px;cursor:pointer;text-decoration:underline">← Quay lại Live Score</button>
+      </div>
+    </div>`;
+  setTimeout(()=>{const el=document.getElementById('pinInput');if(el)el.focus()},50);
+}
+function doLogin(){
+  const pin=document.getElementById('pinInput').value;
+  if(tryLogin(pin)){pendingMode=null}
+}
+
+function render(){
+  // If auth is required but missing, show login
+  if((mode==='caddy'||mode==='btc')&&!auth){renderLogin();return}
+
+  let tabs;
+  if(mode==='caddy'){
+    // Caddy: chỉ hiện tab tương ứng scope
+    const s=auth.scope;
+    if(s==='btc')tabs=[['sm','⚔️ Single'],['fb','👥 Fourball'],['sp','🏌️ Stroke']];
+    else if(s.startsWith('sm:'))tabs=[['sm','⚔️ Single']];
+    else if(s.startsWith('fb:'))tabs=[['fb','👥 Fourball']];
+    else if(s==='sp')tabs=[['sp','🏌️ Stroke']];
+    else tabs=[['sm','⚔️ Single']];
+  }
+  else if(mode==='live')tabs=[['bxh','🏆 BXH'],['sm','⚔️ Single'],['fb','👥 Fourball'],['sp','🏌️ Stroke'],['tong','📊 Tổng']];
+  else tabs=[['approve','✅ Phê duyệt'],['pins','🔑 PIN Caddy'],['bxh','🏆 BXH'],['sp','🏌️ Stroke'],['tong','📊 Tổng']];
+  document.getElementById('tabBar').innerHTML=tabs.map(([k,l])=>`<button class="tab ${tab===k?'on':''}" onclick="setTab('${k}')">${l}</button>`).join('');
+
+  const c=document.getElementById('content');
+  // Show auth banner for caddy
+  let banner='';
+  if(mode==='caddy'&&auth&&auth.scope!=='btc'){
+    banner=`<div style="background:#172554;border-bottom:1px solid #3b82f6;padding:6px 10px;display:flex;align-items:center;gap:8px;font-size:11px">
+      <span>🔒</span>
+      <span style="flex:1;color:#60a5fa;font-weight:700">${auth.label}</span>
+      <button onclick="showChangeRequestDialog()" style="background:#78350f;border:1px solid #b45309;color:#fbbf24;padding:3px 8px;border-radius:5px;font-size:10px;font-weight:700;cursor:pointer">Yêu cầu đổi</button>
+      <button onclick="logout()" style="background:none;border:none;color:#64748b;font-size:10px;cursor:pointer;text-decoration:underline">Đăng xuất</button>
+    </div>`;
+  } else if(mode==='btc'&&auth){
+    banner=`<div style="background:#7f1d1d;border-bottom:1px solid #dc2626;padding:6px 10px;display:flex;align-items:center;gap:8px;font-size:11px">
+      <span>👑</span>
+      <span style="flex:1;color:#fca5a5;font-weight:700">Ban Tổ Chức</span>
+      <button onclick="logout()" style="background:none;border:none;color:#fca5a5;font-size:10px;cursor:pointer;text-decoration:underline">Đăng xuất</button>
+    </div>`;
+  }
+
+  if(tab==='bxh')c.innerHTML=banner+renderBXH();
+  else if(tab==='sm')c.innerHTML=banner+renderSM();
+  else if(tab==='fb')c.innerHTML=banner+renderFB();
+  else if(tab==='tong')c.innerHTML=banner+renderTotal();
+  else if(tab==='approve')c.innerHTML=banner+renderApprove();
+  else if(tab==='sp')c.innerHTML=banner+renderSP();
+  else if(tab==='pins')c.innerHTML=banner+renderPinManagement();
+
+  const bar=document.getElementById('actionBar');
+  if(mode==='caddy')bar.innerHTML='<button class="btn btn-p" onclick="syncToServer()">☁️ Đồng bộ lên Server</button><button class="btn btn-s" onclick="saveLocal();toast(\'Đã lưu local\',1)">💾 Lưu</button>';
+  else bar.innerHTML='<button class="btn btn-p" onclick="fetchServer()">🔄 Cập nhật</button>';
+}
+
+// ========== NAME ==========
+function getName(f,t){
+  const key=f+'_'+t;
+  const nc=D.nameChanges[key];
+  if(nc&&nc.status==='approved')return nc.new;
+  return D.sm[f]?.[t]?.n||SM[f]?.[t]?.n||'';
+}
+
+function proposeName(f,t,newName){
+  const key=f+'_'+t;
+  const orig=SM[f]?.[t]?.n||'';
+  if(newName.trim()===orig){delete D.nameChanges[key];} // reverted to original
+  else{D.nameChanges[key]={old:orig,new:newName.trim(),status:'pending'};}
+  if(D.sm[f]&&D.sm[f][t])D.sm[f][t].n=newName.trim();
+  saveLocal();render();
+}
+
+function approveName(key){D.nameChanges[key].status='approved';saveLocal();render();toast('✅ Đã duyệt',1)}
+function rejectName(key){
+  const nc=D.nameChanges[key];
+  const[f,t]=key.split('_');
+  // Revert name
+  if(D.sm[f]&&D.sm[f][t])D.sm[f][t].n=nc.old;
+  delete D.nameChanges[key];
+  saveLocal();render();toast('Đã từ chối, khôi phục tên cũ',1);
+}
+
+// ========== SM CALC ==========
+function calcSM(f){
+  const r={};T.forEach(t=>{r[t]={hp:Array(18).fill(null),thp:0,mp:0}});
+  const fd=D.sm[f];if(!fd)return r;
+  for(let h=0;h<18;h++){
+    const sc=T.map(t=>fd[t]?.s?.[h]);
+    if(sc.some(v=>v==null))continue;
+    const ns=sc.map(Number),mn=Math.min(...ns),cnt=ns.filter(v=>v===mn).length;
+    T.forEach((t,i)=>{r[t].hp[h]=ns[i]===mn?(cnt===1?3:cnt===2?1.5:cnt===3?1:0):0});
+  }
+  T.forEach(t=>{r[t].thp=r[t].hp.reduce((a,v)=>a+(v||0),0)});
+  const tots=T.map(t=>r[t].thp),mx=Math.max(...tots);
+  if(mx>0){const cm=tots.filter(v=>v===mx).length;T.forEach((t,i)=>{if(tots[i]===mx)r[t].mp=cm===1?3:cm===2?1.5:cm===3?1:0})}
+  return r;
+}
+function teamTotals(){
+  const tot={};T.forEach(t=>{tot[t]={sm:0,fb:0}});
+  GR.forEach(f=>{const r=calcSM(f);T.forEach(t=>{tot[t].sm+=r[t].mp})});
+  // FB: dùng điểm trận tính live từ fbH (kết quả hố của CẶP)
+  for(const pair of FB){
+    for(let mi=0;mi<2;mi++){
+      const mid=pair.p+'_'+(mi===0?'A':'B');
+      const m=pair.m[mi];
+      const c=calcFBMatch(mid);
+      // Chỉ cộng điểm trận khi caddy đã nhập ít nhất 1 hố (điểm tạm, live)
+      if(c.played>0){
+        if(c.ptsA!=null)tot[m.a].fb+=Number(c.ptsA);
+        if(c.ptsB!=null)tot[m.b].fb+=Number(c.ptsB);
+      }
+    }
+  }
+  return tot;
+}
+
+// ========== RENDER ==========
+function renderBXH(){
+  const tot=teamTotals();
+  const rk=T.map(t=>({t,total:tot[t].sm+tot[t].fb,sm:tot[t].sm,fb:tot[t].fb})).sort((a,b)=>b.total-a.total);
+  return`<div class="stand">${rk.map((r,i)=>`<div class="tc ${i===0&&r.total>0?'g':''}">
+    <div class="rk">#${i+1}</div><div class="logo t-${r.t}">${r.t}</div>
+    <div class="tn">${TN[r.t]}</div><div class="ts">${r.total.toFixed(1)}</div>
+    <div class="td">SM:${r.sm.toFixed(1)} FB:${r.fb.toFixed(1)}</div>
+  </div>`).join('')}</div>`;
+}
+
+function renderSM(){
+  if(mode==='caddy'){
+    // Determine which flights this caddy can edit
+    const scope=auth?auth.scope:'';
+    const allowedFlights=scope==='btc'?GR:(scope.startsWith('sm:')?[scope.slice(3)]:[]);
+    if(allowedFlights.length===0)return'<div style="text-align:center;padding:40px;color:#ef4444">⚠️ Bạn không được cấp quyền nhập Single Match. Vào Fourball hoặc yêu cầu BTC đổi scope.</div>';
+    // Auto-lock if only 1 allowed
+    if(allowedFlights.length===1&&curFlight!==allowedFlights[0])curFlight=allowedFlights[0];
+    const fsel=`<div style="display:flex;gap:5px;padding:8px;flex-wrap:wrap">${GR.map(f=>{
+      const has=D.sm[f]&&T.some(t=>D.sm[f][t]?.s?.some(v=>v!=null));
+      const locked=!allowedFlights.includes(f);
+      if(locked)return`<button disabled style="flex:1;min-width:40px;padding:10px 6px;border-radius:8px;border:2px solid #1e3050;background:#0b1121;color:#334155;font-size:13px;font-weight:800;cursor:not-allowed;opacity:.5">🔒${f}</button>`;
+      return`<button style="flex:1;min-width:40px;padding:10px 6px;border-radius:8px;border:2px solid ${curFlight===f?'#3b82f6':has?'#22c55e':'#1e3050'};background:${curFlight===f?'#172554':'#111b2e'};color:${curFlight===f?'#60a5fa':has?'#22c55e':'#64748b'};font-size:13px;font-weight:800;cursor:pointer" onclick="curFlight='${f}';render()">${f}</button>`
+    }).join('')}</div>`;
+    if(!curFlight)return fsel+'<div style="text-align:center;padding:40px;color:#475569">Chọn bảng để nhập score</div>';
+    const fd=D.sm[curFlight];
+    const inputs=T.map(t=>{
+      const sc=fd[t]?.s||Array(18).fill(null);
+      const gross=sc.reduce((a,v)=>a+(v||0),0),cnt=sc.filter(v=>v!=null).length;
+      const curName=getName(curFlight,t);
+      const ncKey=curFlight+'_'+t;
+      const nc=D.nameChanges[ncKey];
+      const nameChanged=nc&&nc.status==='pending';
+      return`<div class="si"><div class="si-h">
+        <div class="bdg t-${t}">${t}</div>
+        <input class="name-in ${nameChanged?'changed':''}" value="${curName}" onchange="proposeName('${curFlight}','${t}',this.value)" placeholder="Tên golfer">
+        ${nameChanged?'<span class="nc-badge nc-pending">Chờ duyệt</span>':''}
+        <div class="info">HDC:${SM[curFlight][t].h} ${cnt>0?'G:'+gross:''}</div>
+      </div>
+      <div class="hg">${[...Array(9)].map((_,i)=>`<div class="hc"><span class="hn">${i+1}</span><span class="pr">P${PAR[i]}</span>
+        <input class="hi ${sc[i]!=null?'f':''}" type="number" inputmode="numeric" min="1" max="15" value="${sc[i]!=null?sc[i]:''}" onfocus="this.select()" onchange="smIn('${curFlight}','${t}',${i},this.value)"></div>`).join('')}
+        <div class="hsep"></div>
+        ${[...Array(9)].map((_,i)=>`<div class="hc"><span class="hn">${i+10}</span><span class="pr">P${PAR[i+9]}</span>
+        <input class="hi ${sc[i+9]!=null?'f':''}" type="number" inputmode="numeric" min="1" max="15" value="${sc[i+9]!=null?sc[i+9]:''}" onfocus="this.select()" onchange="smIn('${curFlight}','${t}',${i+9},this.value)"></div>`).join('')}
+      </div></div>`}).join('');
+    return fsel+`<div class="sec"><div class="crd"><div class="crd-h"><span class="fl">Bảng ${curFlight}</span></div><div class="crd-b">${inputs}</div></div></div>`;
+  } else {
+    return'<div class="sec">'+GR.map(f=>{
+      const r=calcSM(f);
+      const played=T.every(t=>r[t].hp.some(h=>h!=null))?r[T[0]].hp.filter(h=>h!=null).length:0;
+      const sorted=T.map(t=>({t,...r[t]})).sort((a,b)=>b.thp-a.thp);
+      return`<div class="crd"><div class="crd-h" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'':'none'">
+        <span class="fl">Bảng ${f}</span><span class="st">${played}/18 hố</span></div>
+        <div class="crd-b">${sorted.map(g=>`<div class="gr">
+          <div class="bdg t-${g.t}">${g.t}</div>
+          <div class="nm">${getName(f,g.t)}<small>HDC:${SM[f][g.t].h}</small></div>
+          <div class="hp">${g.thp.toFixed(1)}</div>
+          <div class="mp ${g.mp>=3?'pw':g.mp>0?'pd':'pz'}">${g.mp.toFixed(1)}</div>
+        </div>`).join('')}</div></div>`}).join('')+'</div>';
+  }
+}
+
+function renderFB(){
+  // Determine which pairs this caddy can edit (caddy mode only)
+  const scope=mode==='caddy'&&auth?auth.scope:'btc';
+  const allowedPairs=(scope==='btc'||mode!=='caddy')?FB.map(p=>p.p):(scope.startsWith('fb:')?[scope.slice(3)]:[]);
+  if(mode==='caddy'&&allowedPairs.length===0)return'<div style="text-align:center;padding:40px;color:#ef4444">⚠️ Bạn không được cấp quyền nhập Fourball. Vào Single Match hoặc yêu cầu BTC đổi scope.</div>';
+  // Auto-lock if only 1 allowed (caddy mode)
+  if(mode==='caddy'&&allowedPairs.length===1){
+    const idx=FB.findIndex(p=>p.p===allowedPairs[0]);
+    if(curPair!==idx)curPair=idx;
+  }
+  const psel=`<div style="display:flex;gap:5px;padding:8px;flex-wrap:wrap">${FB.map((p,i)=>{
+    const locked=mode==='caddy'&&!allowedPairs.includes(p.p);
+    if(locked)return`<button disabled style="flex:1;min-width:36px;padding:10px 4px;border-radius:8px;border:2px solid #1e3050;background:#0b1121;color:#334155;font-size:13px;font-weight:800;cursor:not-allowed;opacity:.5">🔒${p.p}</button>`;
+    return`<button style="flex:1;min-width:36px;padding:10px 4px;border-radius:8px;border:2px solid ${curPair===i?'#3b82f6':'#1e3050'};background:${curPair===i?'#172554':'#111b2e'};color:${curPair===i?'#60a5fa':'#64748b'};font-size:13px;font-weight:800;cursor:pointer" onclick="curPair=${i};render()">${p.p}</button>`;
+  }).join('')}</div>`;
+
+  if(mode==='caddy'){
+    if(curPair===null)return psel+'<div style="text-align:center;padding:40px;color:#475569">Chọn cặp để nhập</div>';
+    const pair=FB[curPair];
+    return psel+'<div class="sec">'+pair.m.map((m,mi)=>{
+      const mid=pair.p+'_'+(mi===0?'A':'B');
+      initFBMatch(mid);
+      const calc=calcFBMatch(mid);
+      const stCls=calc.leadA>0?'up':calc.leadA<0?'down':'tied';
+      const stTxt=calc.leadA>0?calc.leadA+' UP':calc.leadA<0?Math.abs(calc.leadA)+' DOWN':'TIED';
+      const hd=D.fbH[mid]||Array(18).fill(null); // 'W'=A win, 'D'=draw, 'L'=A lose
+
+      // Header: team A vs team B + cumulative points
+      const header=`<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
+        <div class="bdg t-${m.a}" style="width:28px;height:28px">${m.a}</div>
+        <div style="flex:1">
+          <div style="font-size:11px;font-weight:700;color:#e2e8f0">${TN[m.a]}</div>
+          <div style="font-size:9px;color:#64748b">${m.g[0]}</div>
+        </div>
+        <div style="text-align:center">
+          <div class="fb-status ${stCls}">${stTxt}</div>
+          <div style="font-size:9px;color:#475569;margin-top:2px">${calc.played}/18 hố</div>
+        </div>
+        <div style="flex:1;text-align:right">
+          <div style="font-size:11px;font-weight:700;color:#e2e8f0">${TN[m.b]}</div>
+          <div style="font-size:9px;color:#64748b">${m.g[1]}</div>
+        </div>
+        <div class="bdg t-${m.b}" style="width:28px;height:28px">${m.b}</div>
+      </div>`;
+
+      // Cumulative totals bar
+      const sumBar=`<div class="fb-sumrow">
+        <div class="bdg t-${m.a}" style="width:22px;height:22px;font-size:7px">${m.a}</div>
+        <div style="flex:1"><div class="lab">Tổng điểm hố</div><div class="tot" style="color:#60a5fa">${calc.totA}</div></div>
+        <div style="font-size:10px;color:#475569">vs</div>
+        <div style="flex:1;text-align:right"><div class="lab">Tổng điểm hố</div><div class="tot" style="color:#60a5fa">${calc.totB}</div></div>
+        <div class="bdg t-${m.b}" style="width:22px;height:22px;font-size:7px">${m.b}</div>
+      </div>`;
+
+      // 18 hole rows with 3-column layout: [Thắng A] | [Hoà] | [Thắng B]
+      const holeRows=[...Array(18)].map((_,h)=>{
+        const courseLabel=h<9?(h+1)+'C':(h-8)+'D';
+        const par=PAR[h];
+        const cur=hd[h];
+        // W = A thắng hố (A +3, B +0)
+        // D = hoà (A +1.5, B +1.5)
+        // L = A thua hố (A +0, B +3)
+        return`<div class="fb-hole">
+          <div class="hl"><b>${courseLabel}</b><small>P${par}</small></div>
+          <div class="fb-btns">
+            <button class="fbb wA t-${m.a} ${cur==='W'?'on':''}" onclick="fbSetHole('${mid}',${h},'W')"><span class="tm">${m.a}</span><span class="lbl">Thắng</span><span class="pt">+3</span></button>
+            <button class="fbb D ${cur==='D'?'on':''}" onclick="fbSetHole('${mid}',${h},'D')"><span class="tm">—</span><span class="lbl">Hoà</span><span class="pt">+1.5</span></button>
+            <button class="fbb wB t-${m.b} ${cur==='L'?'on':''}" onclick="fbSetHole('${mid}',${h},'L')"><span class="tm">${m.b}</span><span class="lbl">Thắng</span><span class="pt">+3</span></button>
+          </div>
+          <div class="fb-cum" style="color:${calc.cumLead[h]>0?'#22c55e':calc.cumLead[h]<0?'#ef4444':'#64748b'}">${cur?(calc.cumLead[h]>0?calc.cumLead[h]+'U':calc.cumLead[h]<0?Math.abs(calc.cumLead[h])+'D':'AS'):''}</div>
+        </div>`;
+      }).join('');
+
+      // Clear button
+      const clearBtn=`<div style="padding:8px;text-align:center"><button onclick="fbClearMatch('${mid}')" style="padding:6px 16px;border-radius:6px;border:1px solid #450a0a;background:#1c0a0a;color:#fca5a5;font-size:10px;font-weight:700;cursor:pointer">🗑️ Xóa kết quả trận này</button></div>`;
+
+      return`<div class="fb-c">
+        <div class="fb-p">Cặp ${pair.p} - Trận ${mi+1}</div>
+        ${header}
+        ${sumBar}
+        <div style="margin-top:8px;background:#0b1121;border-radius:8px;padding:4px">${holeRows}</div>
+        ${clearBtn}
+      </div>`;
+    }).join('')+'</div>';
+  } else {
+    // Live/BTC view
+    return psel+'<div class="sec">'+FB.map(pair=>
+      `<div class="fb-c"><div class="fb-p">Cặp ${pair.p} <span style="color:#334155">| HDC ${pair.hdc}</span></div>
+      ${pair.m.map((m,mi)=>{
+        const mid=pair.p+'_'+(mi===0?'A':'B');
+        const calc=calcFBMatch(mid);
+        const stCls=calc.leadA>0?'up':calc.leadA<0?'down':'tied';
+        const stTxt=calc.leadA>0?calc.leadA+' UP':calc.leadA<0?Math.abs(calc.leadA)+' DOWN':(calc.played>0?'TIED':'-');
+        const pA=calc.ptsA,pB=calc.ptsB;
+        return`<div style="padding:6px;background:#0b1121;border-radius:6px;margin:4px 0">
+          <div style="display:flex;align-items:center;gap:5px;margin-bottom:4px">
+            <div class="bdg t-${m.a}" style="width:22px;height:22px;font-size:7px">${m.a}</div>
+            <div style="flex:1;font-size:11px;font-weight:600;color:#e2e8f0">${TN[m.a]} <b style="color:#60a5fa">${calc.totA}</b></div>
+            <div class="fb-status ${stCls}" style="font-size:10px">${stTxt}</div>
+            <div style="flex:1;font-size:11px;font-weight:600;text-align:right;color:#e2e8f0"><b style="color:#60a5fa">${calc.totB}</b> ${TN[m.b]}</div>
+            <div class="bdg t-${m.b}" style="width:22px;height:22px;font-size:7px">${m.b}</div>
+          </div>
+          <div style="display:flex;gap:2px;flex-wrap:wrap">${calc.holes.map((h,i)=>
+            `<div title="${i<9?(i+1)+'C':(i-8)+'D'}" style="width:16px;height:16px;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:800;background:${h==='+'?'#14532d':h==='-'?'#450a0a':h==='AS'?'#422006':'#1e3050'};color:${h==='+'?'#22c55e':h==='-'?'#ef4444':h==='AS'?'#eab308':'#334155'}">${h==='+'?'W':h==='-'?'L':h==='AS'?'D':'·'}</div>`
+          ).join('')}</div>
+          ${calc.played>0?`<div style="text-align:center;font-size:9px;color:#475569;margin-top:3px">${calc.played}/18 hố | ${m.a}: <b style="color:${pA===3?'#22c55e':pA===1.5?'#eab308':'#64748b'}">${pA!=null?pA.toFixed(1):'-'}</b> — ${m.b}: <b style="color:${pB===3?'#22c55e':pB===1.5?'#eab308':'#64748b'}">${pB!=null?pB.toFixed(1):'-'}</b></div>`:''}
+        </div>`}).join('')}</div>`
+    ).join('')+'</div>';
+  }
+}
+
+function renderTotal(){
+  const tot=teamTotals();
+  const rk=T.map(t=>({t,total:tot[t].sm+tot[t].fb,...tot[t]})).sort((a,b)=>b.total-a.total);
+  const smD={};T.forEach(t=>{smD[t]=[]});
+  GR.forEach(f=>{const r=calcSM(f);T.forEach(t=>{smD[t].push(r[t].mp)})});
+  return`<div class="sec"><div class="crd"><div class="crd-h"><span class="fl">TỔNG HỢP CHI TIẾT</span></div>
+    <div class="crd-b" style="overflow-x:auto"><table class="tbl">
+      <tr><th style="text-align:left">Đội</th>${GR.map(g=>`<th>${g}</th>`).join('')}<th style="color:#60a5fa">SM</th><th style="color:#22c55e">FB</th><th style="color:#eab308;font-size:13px">Tổng</th></tr>
+      ${rk.map((r,i)=>`<tr${i===0?' style="background:#0a1e10"':''}>
+        <td style="text-align:left;font-weight:700"><span class="bdg t-${r.t}" style="width:18px;height:18px;font-size:7px;display:inline-flex;vertical-align:middle;margin-right:2px">${r.t}</span>${TN[r.t]}</td>
+        ${smD[r.t].map(p=>`<td style="color:${p>=3?'#22c55e':p>0?'#eab308':'#334155'}">${p.toFixed(1)}</td>`).join('')}
+        <td style="font-weight:800;color:#60a5fa">${r.sm.toFixed(1)}</td>
+        <td style="font-weight:800;color:#22c55e">${r.fb.toFixed(1)}</td>
+        <td style="font-weight:900;font-size:15px;color:${i===0?'#eab308':'#fff'}">${r.total.toFixed(1)}</td>
+      </tr>`).join('')}
+    </table></div></div>
+    <div style="text-align:center;padding:8px;font-size:9px;color:#334155">SM max:21 | FB max:18 | Tổng max:39 | Bằng điểm → Playoff SM bảng B/C</div></div>`;
+}
+
+// ========== BTC APPROVE ==========
+function renderApprove(){
+  let html='<div class="sec">';
+
+  // === Section 1: Change requests (đổi flight/cặp) ===
+  const pendingReqs=Object.entries(D.changeReqs||{}).filter(([k,v])=>v.status==='pending');
+  html+='<div class="crd"><div class="crd-h"><span class="fl">🔄 YÊU CẦU ĐỔI PHÂN CÔNG</span><span class="st">'+pendingReqs.length+' chờ duyệt</span></div><div class="crd-b">';
+  if(pendingReqs.length===0){
+    html+='<div style="text-align:center;padding:16px;color:#475569;font-size:11px">Không có yêu cầu đổi phân công</div>';
+  } else {
+    html+=pendingReqs.map(([pin,req])=>{
+      const t=req.ts?new Date(req.ts).toLocaleTimeString('vi',{hour:'2-digit',minute:'2-digit'}):'';
+      return`<div class="nc-row">
+        <div style="font-size:10px;font-weight:900;color:#fbbf24;min-width:38px">PIN<br>${pin}</div>
+        <div style="flex:1;font-size:10px">
+          <div style="color:#94a3b8"><span class="old">${req.fromLabel||req.fromScope}</span> <span class="arrow">→</span> <span class="new">${req.toLabel||req.toScope}</span></div>
+          ${req.reason?`<div style="color:#64748b;font-size:9px;margin-top:2px">💬 ${req.reason}</div>`:''}
+          <div style="color:#475569;font-size:8px">${t}</div>
+        </div>
+        <button class="nc-btn nc-ok" onclick="approveChange('${pin}')">✓ Duyệt</button>
+        <button class="nc-btn nc-no" onclick="rejectChange('${pin}')">✗ Từ chối</button>
+      </div>`}).join('');
+  }
+  html+='</div></div>';
+
+  // === Section 2: Name changes ===
+  const pending=Object.entries(D.nameChanges).filter(([k,v])=>v.status==='pending');
+  html+='<div class="crd"><div class="crd-h"><span class="fl">✏️ PHÊ DUYỆT ĐỔI TÊN GOLFER</span><span class="st">'+pending.length+' chờ duyệt</span></div><div class="crd-b">';
+  if(pending.length===0){
+    html+='<div style="text-align:center;padding:16px;color:#475569;font-size:11px">Không có yêu cầu đổi tên</div>';
+  } else {
+    html+=pending.map(([key,nc])=>{
+      const[f,t]=key.split('_');
+      return`<div class="nc-row">
+        <div class="bdg t-${t}">${t}</div>
+        <div style="flex:1">
+          <div style="font-size:9px;color:#64748b">Bảng ${f}</div>
+          <span class="old">${nc.old}</span> <span class="arrow">→</span> <span class="new">${nc.new}</span>
+        </div>
+        <button class="nc-btn nc-ok" onclick="approveName('${key}')">✓ Duyệt</button>
+        <button class="nc-btn nc-no" onclick="rejectName('${key}')">✗ Từ chối</button>
+      </div>`}).join('');
+  }
+  const approved=Object.entries(D.nameChanges).filter(([k,v])=>v.status==='approved');
+  if(approved.length>0){
+    html+='<div style="margin-top:12px;font-size:10px;color:#475569;font-weight:700">Đã duyệt:</div>';
+    html+=approved.map(([key,nc])=>{
+      const[f,t]=key.split('_');
+      return`<div style="display:flex;align-items:center;gap:6px;padding:4px 8px;font-size:10px;color:#22c55e">
+        <div class="bdg t-${t}" style="width:18px;height:18px;font-size:7px">${t}</div>
+        Bảng ${f}: ${nc.old} → ${nc.new} ✓
+      </div>`}).join('');
+  }
+  html+='</div></div></div>';
+  return html;
+}
+
+// ========== PIN MANAGEMENT (BTC ONLY) ==========
+function renderPinManagement(){
+  let html='<div class="sec">';
+  html+=`<div class="crd"><div class="crd-h"><span class="fl">🔑 DANH SÁCH PIN CADDY</span><span class="st">${Object.keys(PINS).length} PIN</span></div><div class="crd-b">
+    <div style="padding:6px 10px;background:#1c1307;border-left:3px solid #eab308;font-size:10px;color:#fbbf24;margin-bottom:6px">
+      ⚠️ In danh sách này ra giấy, cắt thành ${Object.keys(PINS).length} mảnh và phát cho từng caddy trưởng trước giờ thi đấu.
+    </div>`;
+  const rows=Object.entries(PINS).sort(([a],[b])=>a.localeCompare(b));
+  html+=`<table class="tbl" style="width:100%">
+    <tr><th style="text-align:left">Phân công</th><th>PIN</th><th>Hành động</th></tr>`;
+  rows.forEach(([pin,cfg])=>{
+    const isOverridden=!DEFAULT_PINS[pin]||JSON.stringify(cfg)!==JSON.stringify(DEFAULT_PINS[pin]);
+    html+=`<tr>
+      <td style="text-align:left;font-weight:700;font-size:11px">${cfg.label}${isOverridden?' <span style="color:#f59e0b;font-size:9px">(đã sửa)</span>':''}</td>
+      <td style="font-size:16px;font-weight:900;color:#eab308;letter-spacing:2px">${pin}</td>
+      <td><button onclick="editPin('${pin}')" style="background:#1e3050;color:#60a5fa;border:none;border-radius:4px;padding:4px 8px;font-size:10px;cursor:pointer;font-weight:700">✏️ Sửa</button></td>
+    </tr>`;
+  });
+  html+='</table>';
+  html+=`<div style="padding:10px;display:flex;gap:6px;flex-wrap:wrap">
+    <button onclick="resetAllPins()" style="flex:1;padding:10px;background:#7f1d1d;color:#fca5a5;border:none;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer">🔄 Reset về mặc định</button>
+    <button onclick="printPinList()" style="flex:1;padding:10px;background:#1e4d2b;color:#22c55e;border:none;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer">🖨️ In/Lưu danh sách</button>
+  </div>`;
+  html+='</div></div></div>';
+  return html;
+}
+
+function editPin(oldPin){
+  const cfg=PINS[oldPin];if(!cfg)return;
+  const newPin=prompt('Đổi PIN cho "'+cfg.label+'"\nPIN mới (4 chữ số):',oldPin);
+  if(!newPin||!/^\d{4}$/.test(newPin)){if(newPin!==null)toast('PIN phải là 4 chữ số',false);return}
+  if(newPin!==oldPin&&PINS[newPin]){toast('PIN '+newPin+' đã được dùng',false);return}
+  delete PINS[oldPin];PINS[newPin]={...cfg};
+  const pinOverrides={};Object.keys(PINS).forEach(k=>{
+    if(!DEFAULT_PINS[k]||JSON.stringify(PINS[k])!==JSON.stringify(DEFAULT_PINS[k]))pinOverrides[k]=PINS[k];
+  });
+  localStorage.setItem('g4t3_pins',JSON.stringify(pinOverrides));
+  post({action:'savePins',pins:PINS}).catch(()=>{});
+  toast('✅ PIN đã cập nhật: '+newPin,true);render();
+}
+function resetAllPins(){
+  if(!confirm('Khôi phục toàn bộ PIN về mặc định?'))return;
+  PINS={...DEFAULT_PINS};
+  localStorage.removeItem('g4t3_pins');
+  post({action:'savePins',pins:PINS}).catch(()=>{});
+  toast('Đã reset về mặc định',true);render();
+}
+function printPinList(){
+  const rows=Object.entries(PINS).sort(([a],[b])=>a.localeCompare(b));
+  const html=`<!doctype html><html><head><meta charset="utf-8"><title>PIN Caddy - Golf 4 Trường 2026</title>
+    <style>body{font-family:sans-serif;padding:20px}h1{font-size:18px}table{width:100%;border-collapse:collapse;margin-top:12px}th,td{border:1px solid #888;padding:8px;text-align:left}.pin{font-size:22px;font-weight:900;letter-spacing:3px;text-align:center}
+    @media print{@page{size:A4;margin:10mm}}</style></head><body>
+    <h1>PIN CADDY — GOLF 4 TRƯỜNG ĐH KỸ THUẬT 2026</h1>
+    <p>Corn Hill Golf Club | 18/04/2026 | Shotgun 12:30</p>
+    <table><tr><th>Phân công</th><th style="width:120px">PIN</th><th>Ghi chú</th></tr>
+    ${rows.map(([pin,cfg])=>`<tr><td>${cfg.label}</td><td class="pin">${pin}</td><td></td></tr>`).join('')}
+    </table>
+    <p style="margin-top:20px;font-size:11px;color:#555">Caddy nhập PIN để đăng nhập. PIN chỉ cấp quyền nhập đúng phân công; mọi thay đổi phân công phải được BTC duyệt.</p>
+    <script>window.print()<\/script></body></html>`;
+  const w=window.open('','_blank');w.document.write(html);w.document.close();
+}
+
+// ========== CHANGE REQUEST DIALOG (Caddy) ==========
+function showChangeRequestDialog(){
+  if(!auth||auth.scope==='btc')return;
+  // Build list of all scopes caddy could switch to
+  const allScopes=[];
+  Object.entries(PINS).forEach(([pin,cfg])=>{
+    if(cfg.scope!=='btc'&&cfg.scope!==auth.scope)allScopes.push({scope:cfg.scope,label:cfg.label});
+  });
+  // Dedup by scope
+  const seen={};const uniq=allScopes.filter(s=>{if(seen[s.scope])return false;seen[s.scope]=true;return true});
+  const options=uniq.map(s=>`<option value="${s.scope}">${s.label}</option>`).join('');
+  const html=`<div id="chgDlg" style="position:fixed;inset:0;background:#000a;z-index:400;display:flex;align-items:center;justify-content:center;padding:16px">
+    <div style="background:#111b2e;border:1px solid #1e3050;border-radius:12px;padding:18px;max-width:360px;width:100%">
+      <div style="font-size:14px;font-weight:800;color:#fbbf24;margin-bottom:10px">🔄 Yêu cầu đổi phân công</div>
+      <div style="font-size:11px;color:#94a3b8;margin-bottom:12px">Hiện tại: <b style="color:#60a5fa">${auth.label}</b></div>
+      <label style="font-size:11px;color:#64748b;font-weight:700">Đổi sang:</label>
+      <select id="chgTo" style="width:100%;padding:10px;margin-top:4px;border-radius:8px;border:1.5px solid #1e3050;background:#0b1121;color:#e2e8f0;font-size:12px;font-family:inherit">${options}</select>
+      <label style="font-size:11px;color:#64748b;font-weight:700;margin-top:10px;display:block">Lý do (tuỳ chọn):</label>
+      <textarea id="chgReason" rows="2" placeholder="VD: caddy trưởng cặp D xin nghỉ, tôi thay" style="width:100%;padding:8px;margin-top:4px;border-radius:8px;border:1.5px solid #1e3050;background:#0b1121;color:#e2e8f0;font-size:11px;font-family:inherit;box-sizing:border-box;resize:none"></textarea>
+      <div style="display:flex;gap:6px;margin-top:14px">
+        <button onclick="document.getElementById('chgDlg').remove()" style="flex:1;padding:10px;border-radius:8px;border:none;background:#1e3050;color:#94a3b8;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">Huỷ</button>
+        <button onclick="submitChangeReq()" style="flex:1;padding:10px;border-radius:8px;border:none;background:#b45309;color:#fff;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">Gửi yêu cầu</button>
+      </div>
+    </div></div>`;
+  const div=document.createElement('div');div.innerHTML=html;document.body.appendChild(div.firstChild);
+}
+function submitChangeReq(){
+  const to=document.getElementById('chgTo').value;
+  const reason=document.getElementById('chgReason').value.trim();
+  document.getElementById('chgDlg').remove();
+  requestChange(to,reason);
+}
+
+// ========== STROKE PLAY ==========
+function spBang(h){return h<=12?'A':h<=20?'B':'C'}
+
+function initSP(){
+  if(!D.sp||!D.sp.golfers||D.sp.golfers.length===0){
+    D.sp={golfers:SP_GOLFERS.map((g,i)=>({id:'sp'+i,n:g.n,h:g.h,s:g.s,sc:Array(18).fill(null)}))};
+  }
+}
+
+function renderSP(){
+  initSP();
+  const golfers=D.sp.golfers;
+  if(mode==='caddy'){
+    // Flight selector: group golfers by 4
+    const flights=[];
+    for(let i=0;i<golfers.length;i+=4){flights.push(golfers.slice(i,i+4))}
+    const fsel=`<div style="display:flex;gap:5px;padding:8px;flex-wrap:wrap">
+      ${flights.map((fl,i)=>`<button style="flex:none;padding:8px 12px;border-radius:8px;border:2px solid ${curSPFlight===i?'#7c3aed':'#1e3050'};background:${curSPFlight===i?'#2e1065':'#111b2e'};color:${curSPFlight===i?'#a78bfa':'#64748b'};font-size:11px;font-weight:800;cursor:pointer" onclick="curSPFlight=${i};render()">Fl${i+1}</button>`).join('')}
+      <button style="flex:none;padding:8px 12px;border-radius:8px;border:2px solid #1e3050;background:#111b2e;color:#22c55e;font-size:11px;font-weight:700;cursor:pointer" onclick="addSPGolfer()">+ Thêm</button>
+    </div>`;
+    if(curSPFlight===null)return fsel+'<div style="text-align:center;padding:40px;color:#475569">Chọn flight để nhập score</div>';
+    const fl=flights[curSPFlight]||[];
+    const inputs=fl.map(g=>{
+      const gi=golfers.indexOf(g);
+      const sc=g.sc||Array(18).fill(null);
+      const gross=sc.reduce((a,v)=>a+(v||0),0),cnt=sc.filter(v=>v!=null).length;
+      const net=cnt>0?gross-Math.round(g.h):'-';
+      return`<div class="si"><div class="si-h">
+        <div class="bdg t-${g.s||'XD'}" style="font-size:7px">${g.s||'?'}</div>
+        <input class="name-in" value="${g.n}" onchange="spName(${gi},this.value)" placeholder="Tên golfer">
+        <div class="info">HDC:${g.h} ${cnt>0?'G:'+gross+' N:'+net:''}</div>
+      </div>
+      <div class="hg">${PAR_SP_B.map((_,i)=>`<div class="hc"><span class="hn">${i+1}</span><span class="pr">P${PAR_SP[i]}</span>
+        <input class="hi ${sc[i]!=null?'f':''}" type="number" inputmode="numeric" min="1" max="15" value="${sc[i]!=null?sc[i]:''}" onfocus="this.select()" onchange="spIn(${gi},${i},this.value)"></div>`).join('')}
+        <div class="hsep"></div>
+        ${PAR_SP_C.map((_,i)=>`<div class="hc"><span class="hn">${i+10}</span><span class="pr">P${PAR_SP[i+9]}</span>
+        <input class="hi ${sc[i+9]!=null?'f':''}" type="number" inputmode="numeric" min="1" max="15" value="${sc[i+9]!=null?sc[i+9]:''}" onfocus="this.select()" onchange="spIn(${gi},${i+9},this.value)"></div>`).join('')}
+      </div></div>`}).join('');
+    return fsel+`<div class="sec"><div class="crd"><div class="crd-h"><span class="fl">Flight ${curSPFlight+1}</span><span class="st">Sân B-C | Par 72</span></div><div class="crd-b">${inputs}</div></div></div>`;
+  } else {
+    // Live/BTC: Leaderboard by bảng
+    const filter=`<div style="display:flex;gap:5px;padding:8px">${['all','A','B','C'].map(f=>
+      `<button style="flex:1;padding:8px;border-radius:7px;border:1.5px solid ${curSPFilter===f?'#7c3aed':'#1e3050'};background:${curSPFilter===f?'#2e1065':'#111b2e'};color:${curSPFilter===f?'#a78bfa':'#64748b'};font-size:11px;font-weight:700;cursor:pointer" onclick="curSPFilter='${f}';render()">${f==='all'?'Tất cả':'Bảng '+f}</button>`
+    ).join('')}</div>`;
+    const bangs=curSPFilter==='all'?['A','B','C']:[curSPFilter];
+    const cards=bangs.map(b=>{
+      const hdcR=b==='A'?'HDC 0-12':b==='B'?'HDC 13-20':'HDC 21+';
+      const bg=golfers.filter(g=>spBang(g.h)===b).map(g=>{
+        const sc=g.sc||[];const cnt=sc.filter(v=>v!=null).length;
+        const gross=sc.reduce((a,v)=>a+(v||0),0);
+        const net=cnt>0?gross-Math.round(g.h):9999;
+        return{...g,gross,net:cnt>0?net:null,cnt};
+      }).sort((a,b)=>{
+        if(a.cnt===0&&b.cnt>0)return 1;if(a.cnt>0&&b.cnt===0)return -1;
+        if(a.cnt===0&&b.cnt===0)return 0;return a.net-b.net;
+      });
+      if(bg.length===0)return'';
+      return`<div class="crd"><div class="crd-h" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'':'none'">
+        <span class="fl">Bảng ${b} <span style="font-size:10px;color:#94a3b8;font-weight:500">(${hdcR})</span></span>
+        <span class="st">${bg.filter(g=>g.cnt>0).length}/${bg.length} đã nhập</span></div>
+        <div class="crd-b">${bg.map((g,i)=>{
+          const gi=golfers.indexOf(golfers.find(x=>x.id===g.id));
+          const rkc=g.cnt>0?(i===0?'color:#eab308':i===1?'color:#94a3b8':i===2?'color:#cd7f32':'color:#64748b'):'color:#334155';
+          return`<div class="gr">
+            <div style="font-size:13px;font-weight:900;min-width:24px;text-align:center;${rkc}">${g.cnt>0?i+1:'-'}</div>
+            <div class="bdg t-${g.s||'XD'}" style="font-size:7px">${g.s||'?'}</div>
+            <div class="nm">${g.n}<small>HDC:${g.h} | ${g.cnt}/18 hố</small></div>
+            <div style="font-size:11px;color:#64748b;min-width:28px;text-align:center">${g.cnt>0?g.gross:'-'}</div>
+            <div style="font-size:15px;font-weight:900;color:#22c55e;min-width:34px;text-align:right">${g.net!=null?g.net:'-'}</div>
+            ${mode==='btc'?`<button onclick="spEdit(${gi})" style="background:#1e3050;color:#60a5fa;border:none;border-radius:4px;padding:3px 6px;font-size:9px;cursor:pointer;font-weight:700">✏️</button>
+            <button onclick="spDel(${gi})" style="background:#7f1d1d;color:#fca5a5;border:none;border-radius:4px;padding:3px 6px;font-size:9px;cursor:pointer;font-weight:700">✗</button>`:''}
+          </div>`}).join('')}</div></div>`;
+    }).join('');
+    const btcAdd=mode==='btc'?`<div style="padding:8px"><button onclick="addSPGolfer()" style="width:100%;padding:10px;border-radius:8px;border:2px dashed #7c3aed;background:#2e1065;color:#a78bfa;font-size:12px;font-weight:700;cursor:pointer">+ Thêm golfer Stroke Play</button></div>`:'';
+    return filter+btcAdd+'<div class="sec">'+cards+'</div>';
+  }
+}
+
+function spIn(gi,h,v){
+  initSP();
+  D.sp.golfers[gi].sc[h]=v===''?null:parseInt(v);
+  saveLocal();render();
+}
+function spName(gi,v){
+  initSP();
+  D.sp.golfers[gi].n=v.trim();
+  saveLocal();render();
+}
+function addSPGolfer(){
+  initSP();
+  const n=prompt('Tên golfer:');if(!n)return;
+  const h=parseFloat(prompt('HDC Index:'))||20;
+  const s=prompt('Trường (BK/GT/KT/XD):','XD')||'XD';
+  D.sp.golfers.push({id:'sp'+Date.now(),n:n.trim(),h,s:s.toUpperCase(),sc:Array(18).fill(null)});
+  saveLocal();render();
+}
+function spEdit(gi){
+  initSP();
+  const g=D.sp.golfers[gi];if(!g)return;
+  const n=prompt('Tên golfer:',g.n);if(n===null)return;
+  const h=prompt('HDC Index:',g.h);if(h===null)return;
+  const s=prompt('Trường (BK/GT/KT/XD):',g.s);if(s===null)return;
+  g.n=n.trim();g.h=parseFloat(h)||g.h;g.s=s.toUpperCase()||g.s;
+  saveLocal();render();toast('✅ Đã cập nhật '+g.n,true);
+}
+function spDel(gi){
+  initSP();
+  const g=D.sp.golfers[gi];if(!g)return;
+  if(!confirm('Xóa golfer '+g.n+'?'))return;
+  D.sp.golfers.splice(gi,1);
+  saveLocal();render();toast('Đã xóa '+g.n,true);
+}
+
+// ========== FB MATCH DATA (new: W/D/L per hole from side A perspective) ==========
+// D.fbH[mid] = Array(18) of 'W' | 'D' | 'L' | null
+//   W: side A thắng hố (A +3, B +0)
+//   D: hoà hố          (A +1.5, B +1.5)
+//   L: side A thua hố  (A +0, B +3)
+function initFBMatch(mid){
+  if(!D.fbH)D.fbH={};
+  if(!D.fbH[mid])D.fbH[mid]=Array(18).fill(null);
+}
+
+function calcFBMatch(mid){
+  if(!D.fbH||!D.fbH[mid])return{holes:Array(18).fill(null),cumLead:Array(18).fill(0),leadA:0,totA:0,totB:0,played:0,ptsA:null,ptsB:null};
+  const hd=D.fbH[mid];
+  const holes=[],cumLead=[];
+  let leadA=0,totA=0,totB=0,played=0;
+  for(let h=0;h<18;h++){
+    const r=hd[h];
+    if(r==='W'){holes.push('+');totA+=3;leadA++}
+    else if(r==='L'){holes.push('-');totB+=3;leadA--}
+    else if(r==='D'){holes.push('AS');totA+=1.5;totB+=1.5}
+    else{holes.push(null)}
+    cumLead.push(leadA);
+    if(r)played++;
+  }
+  let ptsA=null,ptsB=null;
+  // Match point: tổng điểm hố cao hơn -> thắng trận (3đ). Bằng -> 1.5đ. Thua -> 0đ.
+  if(played>0){
+    if(totA>totB){ptsA=3;ptsB=0}
+    else if(totB>totA){ptsA=0;ptsB=3}
+    else{ptsA=1.5;ptsB=1.5}
+    // Only commit to team totals when all 18 played
+    if(played>=18){
+      if(!D.fbR)D.fbR={};
+      D.fbR[mid]={a:ptsA,b:ptsB};
+    }
+  }
+  return{holes,cumLead,leadA,totA,totB,played,ptsA,ptsB};
+}
+
+function fbSetHole(mid,h,result){
+  initFBMatch(mid);
+  // Toggle off if same button pressed again
+  if(D.fbH[mid][h]===result)D.fbH[mid][h]=null;
+  else D.fbH[mid][h]=result;
+  // Recalc to sync team totals if 18 holes complete
+  calcFBMatch(mid);
+  saveLocal();render();
+}
+
+function fbClearMatch(mid){
+  if(!confirm('Xóa toàn bộ kết quả 18 hố của trận này?'))return;
+  D.fbH[mid]=Array(18).fill(null);
+  if(D.fbR&&D.fbR[mid])delete D.fbR[mid];
+  saveLocal();render();toast('Đã xóa kết quả trận',true);
+}
+
+// ========== INPUT ==========
+function smIn(f,t,h,v){
+  if(!D.sm[f])D.sm[f]={};
+  if(!D.sm[f][t])D.sm[f][t]={n:getName(f,t),s:Array(18).fill(null)};
+  D.sm[f][t].s[h]=v===''?null:parseInt(v);
+  saveLocal();render();
+}
+
+// ========== SERVER ==========
+async function syncToServer(){
+  if(syncing)return;syncing=true;showLoad(true);
+  try{
+    for(const[f,teams]of Object.entries(D.sm)){
+      const rows=[];
+      for(const[t,d]of Object.entries(teams)){
+        if(!d.s||!d.s.some(v=>v!=null))continue;
+        rows.push({flight:f,team:t,golfer:getName(f,t),scores:d.s});
+      }
+      if(rows.length>0)await post({action:'save',sheet:'SM',rows});
+    }
+    // Sync FB: push per-hole W/D/L results + match points
+    if(D.fbH){
+      const fbRows=[];
+      for(const pair of FB){
+        for(let mi=0;mi<2;mi++){
+          const mid=pair.p+'_'+(mi===0?'A':'B');
+          const hd=D.fbH[mid];
+          if(!hd||!hd.some(v=>v))continue;
+          const m=pair.m[mi];
+          const calc=calcFBMatch(mid);
+          // Convert to per-hole points: A side and B side perspective (3/1.5/0)
+          const aPts=hd.map(r=>r==='W'?3:r==='D'?1.5:r==='L'?0:null);
+          const bPts=hd.map(r=>r==='L'?3:r==='D'?1.5:r==='W'?0:null);
+          fbRows.push({pair:pair.p,match:mi+1,team:m.a,matchPt:calc.ptsA,totalHolePt:calc.totA,holePts:aPts});
+          fbRows.push({pair:pair.p,match:mi+1,team:m.b,matchPt:calc.ptsB,totalHolePt:calc.totB,holePts:bPts});
+        }
+      }
+      if(fbRows.length>0)await post({action:'saveFB2',rows:fbRows});
+    }
+    // Also push legacy fbR for backward compat
+    for(const[mid,r]of Object.entries(D.fbR||{})){
+      if(r.a!=null)await post({action:'saveFB',matchId:mid,ptsA:r.a,ptsB:r.b});
+    }
+    // Sync SP scores
+    if(D.sp&&D.sp.golfers){
+      const spRows=D.sp.golfers.filter(g=>g.sc&&g.sc.some(v=>v!=null)).map(g=>({
+        flight:'SP',team:g.s||'XD',golfer:g.n+' (HDC:'+g.h+')',scores:g.sc
+      }));
+      if(spRows.length>0)await post({action:'save',sheet:'SP',rows:spRows});
+    }
+    toast('✅ Đồng bộ thành công!',true);
+  }catch(e){toast('❌ Lỗi: '+e.message,false)}
+  syncing=false;showLoad(false);
+}
+
+async function fetchServer(){
+  try{
+    const r=await fetch(API+'?action=getAll');const d=await r.json();
+    if(d.error)return;
+    if(d.sm)Object.entries(d.sm).forEach(([f,teams])=>{
+      if(!D.sm[f])D.sm[f]={};
+      Object.entries(teams).forEach(([t,gd])=>{D.sm[f][t]={n:gd.name||getName(f,t),s:gd.scores||Array(18).fill(null)}});
+    });
+    if(d.fbResults)Object.entries(d.fbResults).forEach(([k,v])=>{D.fbR[k]={a:v.ptsA,b:v.ptsB}});
+    if(d.fbHoles){
+      if(!D.fbH)D.fbH={};
+      Object.entries(d.fbHoles).forEach(([k,v])=>{if(Array.isArray(v)&&v.length===18)D.fbH[k]=v});
+      for(const pair of FB){
+        for(let mi=0;mi<2;mi++){
+          const mid=pair.p+'_'+(mi===0?'A':'B');
+          if(D.fbH[mid])calcFBMatch(mid);
+        }
+      }
+    }
+    // === PIN overrides from server ===
+    if(d.pins&&typeof d.pins==='object'){
+      PINS={...DEFAULT_PINS,...d.pins};
+      // Persist overrides locally (only diffs from defaults)
+      const diff={};Object.keys(PINS).forEach(k=>{
+        if(!DEFAULT_PINS[k]||JSON.stringify(PINS[k])!==JSON.stringify(DEFAULT_PINS[k]))diff[k]=PINS[k];
+      });
+      localStorage.setItem('g4t3_pins',JSON.stringify(diff));
+      // If current auth PIN was remapped → update auth label/scope
+      if(auth&&PINS[auth.pin]){
+        auth.scope=PINS[auth.pin].scope;
+        auth.label=PINS[auth.pin].label;
+        localStorage.setItem('g4t3_auth',JSON.stringify(auth));
+      } else if(auth&&!PINS[auth.pin]){
+        // PIN bị xoá → logout
+        toast('PIN của bạn đã bị thu hồi',false);
+        auth=null;localStorage.removeItem('g4t3_auth');
+      }
+    }
+    // === Change requests from server ===
+    if(d.changeReqs&&typeof d.changeReqs==='object'){
+      if(!D.changeReqs)D.changeReqs={};
+      Object.entries(d.changeReqs).forEach(([pin,req])=>{D.changeReqs[pin]=req});
+    }
+    saveLocal();online=true;
+    document.getElementById('dot').classList.add('on');
+    document.getElementById('stxt').textContent='Online - '+new Date().toLocaleTimeString('vi');
+    render();
+  }catch(e){online=false;document.getElementById('dot').classList.remove('on');document.getElementById('stxt').textContent='Offline'}
+}
+
+async function post(data){const r=await fetch(API,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify(data)});return r.json()}
+function toast(msg,ok){const t=document.getElementById('toast');t.textContent=msg;t.className='toast show '+(ok?'ok':'err');setTimeout(()=>t.className='toast',2500)}
+function showLoad(s){document.getElementById('loading').classList.toggle('show',s)}
+
+init();
+</script>
+</body>
+</html>
